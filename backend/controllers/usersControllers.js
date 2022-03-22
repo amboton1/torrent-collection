@@ -1,13 +1,11 @@
 const expressAsyncHandler = require("express-async-handler")
 const Users = require("../models/userModel")
 
-const getUsers = expressAsyncHandler(async (req, res) => {
-    const users = await Users.find();
+const loginUser = (req, res) => {
+    res.json({ message: 'Login user' })
+}
 
-    res.status(200).json(users)
-})
-
-const createUser = expressAsyncHandler(async (req, res) => {
+const registerUser = expressAsyncHandler(async (req, res) => {
     if (!req.body.name) {
         res.status(400)
         throw new Error('Please add a new user')
@@ -15,11 +13,16 @@ const createUser = expressAsyncHandler(async (req, res) => {
 
     const user = Users.create({
         name: req.body.name,
-        email: req.body.email
+        email: req.body.email,
+        password: req.body.password
     })
     
     res.status(200).json(user)
 })
+
+const getMe = (req, res) => {
+    res.json({ message: 'User data' })
+}
 
 const updateUser = expressAsyncHandler(async (req, res) => {
     const user = await Users.findById(req.params.id)
@@ -47,4 +50,4 @@ const deleteUser = expressAsyncHandler(async (req, res) => {
     res.status(200).json({ id: req.params.id })
 })
 
-module.exports = { getUsers, createUser, updateUser, deleteUser }
+module.exports = { loginUser, registerUser, getMe, updateUser, deleteUser }
