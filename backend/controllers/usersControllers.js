@@ -3,9 +3,24 @@ const Users = require("../models/userModel")
 const bycriptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-const loginUser = (req, res) => {
-    res.json({ message: 'Login user' })
-}
+const loginUser = expressAsyncHandler(async (req, res) => {
+    const {email, password} = req.body;
+
+    const user = await Users.findOne({email})
+    const comparedPasswords = user && await bycriptjs.compare(password, user.password)
+
+    if (user && comparedPasswords) {
+        res.json({
+            _id: user.id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone
+        })
+    } else {
+        res.status(400)
+        throw new Error('Wrong credentials or user does not exist.')
+    }
+})
 
 const registerUser = expressAsyncHandler(async (req, res) => {
     const { name, email, password, phone } = req.body;
