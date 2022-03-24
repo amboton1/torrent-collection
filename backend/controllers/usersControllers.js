@@ -8,6 +8,7 @@ const getAllUsers = expressAsyncHandler(async (req, res) => {
     Users.find({}, (err, users) => {
         const modifiedUsers = users.map(user => {
             return {
+                id: user.id,
                 name: user.name,
                 email: user.email
             }
@@ -88,11 +89,16 @@ const getMe = expressAsyncHandler(async (req, res) => {
 })
 
 const updateUser = expressAsyncHandler(async (req, res) => {
-    const user = await Users.findById(req.params.id)
+    const user = await Users.findById(req.user.id)
 
     if (!user) {
-        res.status(400)
+        res.status(401)
         throw new Error('User not found')
+    }
+
+    if (req.params.id !== user.id) {
+        res.status(401)
+        throw new Error('Unathorized user, cannot update.')
     }
 
     const updatedUser = await Users.findByIdAndUpdate(req.params.id, req.body, { new: true })
@@ -101,14 +107,12 @@ const updateUser = expressAsyncHandler(async (req, res) => {
 })
 
 const deleteUser = expressAsyncHandler(async (req, res) => {
-    const user = await Users.findById(req.params.id)
+    const user = await Users.findByIdAndDelete(req.params.id)
 
     if (!user) {
         res.status(400)
         throw new Error('User not found')
     }
-
-    await user.remove()
 
     res.status(200).json({ id: req.params.id })
 })
