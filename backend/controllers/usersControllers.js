@@ -2,6 +2,7 @@ const expressAsyncHandler = require("express-async-handler")
 const Users = require("../models/userModel")
 const bycriptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const res = require("express/lib/response")
 
 const getAllUsers = expressAsyncHandler(async (req, res) => {
     Users.find({}, (err, users) => {
@@ -75,9 +76,16 @@ const registerUser = expressAsyncHandler(async (req, res) => {
     }
 })
 
-const getMe = (req, res) => {
-    res.json({ message: 'User data' })
-}
+const getMe = expressAsyncHandler(async (req, res) => {
+    const {_id, name, email, phone} = await Users.findById(req.user.id)
+
+    res.status(200).json({
+        id: _id,
+        name,
+        email,
+        phone
+    })
+})
 
 const updateUser = expressAsyncHandler(async (req, res) => {
     const user = await Users.findById(req.params.id)
