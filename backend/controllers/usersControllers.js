@@ -107,11 +107,18 @@ const updateUser = expressAsyncHandler(async (req, res) => {
 })
 
 const deleteUser = expressAsyncHandler(async (req, res) => {
-    const user = await Users.findByIdAndDelete(req.params.id)
+    const user = await Users.findById(req.user.id)
 
     if (!user) {
         res.status(400)
         throw new Error('User not found')
+    }
+
+    if (req.params.id !== user.id) {
+        res.status(401)
+        throw new Error('Unathorized user, cannot delete.')
+    } else {
+        await user.remove()
     }
 
     res.status(200).json({ id: req.params.id })
