@@ -3,6 +3,19 @@ const Users = require("../models/userModel")
 const bycriptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+const getAllUsers = expressAsyncHandler(async (req, res) => {
+    Users.find({}, (err, users) => {
+        const modifiedUsers = users.map(user => {
+            return {
+                name: user.name,
+                email: user.email
+            }
+        })
+
+        res.send(modifiedUsers)
+    })
+})
+
 const loginUser = expressAsyncHandler(async (req, res) => {
     const {email, password} = req.body;
 
@@ -41,7 +54,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
     const salt = await bycriptjs.genSalt(10)
     const hashedPassword = await bycriptjs.hash(password, salt)
 
-    const user = Users.create({
+    const user = await Users.create({
         name,
         email,
         password: hashedPassword,
@@ -98,4 +111,4 @@ const generateToken = (id) => {
     })
 }
 
-module.exports = { loginUser, registerUser, getMe, updateUser, deleteUser }
+module.exports = { getAllUsers, loginUser, registerUser, getMe, updateUser, deleteUser }
