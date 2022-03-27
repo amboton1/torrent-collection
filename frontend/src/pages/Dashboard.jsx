@@ -1,6 +1,8 @@
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div>
+      <h1 className="text-3xl font-bold">Dashboard</h1>
+    </div>
   )
 }
 

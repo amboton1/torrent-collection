@@ -3,7 +3,7 @@ import { FaSignInAlt, FaUser } from 'react-icons/fa';
 
 const Header = () => {
   return (
-    <header className="header">
+    <header className="header flex justify-between items-center py-5 px-14 mb-14 border-b border-[#76cc52]">
         <div className="logo">
             <Link to='/'>Home</Link>
         </div>
