@@ -78,6 +78,10 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 })
 
 const getMe = expressAsyncHandler(async (req, res) => {
+    if (!req.user) {
+        res.status(401)
+        throw new Error('Not authorized')
+    }
     const {_id, name, email, phone} = await Users.findById(req.user.id)
 
     res.status(200).json({
