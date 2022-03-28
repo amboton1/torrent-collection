@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <Router>
-        <div className="container">
+        <div className="m-0 mx-auto text-center">
           <Header />
           <Routes>
             <Route path='/' element={<Dashboard />} />
