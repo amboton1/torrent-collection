@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authService";
 
@@ -36,7 +38,7 @@ export const authSlice = createSlice({
             .addCase(register.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(register.fulfilled, (state, user) => {
+            .addCase(register.fulfilled, (state, action) => {
                 state.isLoading = false,
                 state.isSuccess = true,
                 state.user = action.payload
