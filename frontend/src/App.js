@@ -5,20 +5,28 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import { UserContext } from './context/userContext';
+import { useState } from 'react';
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  console.log(user);
+
   return (
     <>
-      <Router>
-        <div className="m-0 mx-auto text-center">
-          <Header />
-          <Routes>
-            <Route path='/' element={<Dashboard />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-          </Routes>
-        </div>
-      </Router>
+      <UserContext.Provider value={{ user, setUser }}>
+        <Router>
+          <div className="m-0 mx-auto text-center">
+            <Header />
+            <Routes>
+              <Route path='/' element={<Dashboard />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/register' element={<Register />} />
+            </Routes>
+          </div>
+        </Router>
+      </UserContext.Provider>
       <ToastContainer />
     </>
   );
