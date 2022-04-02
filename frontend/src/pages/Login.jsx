@@ -31,6 +31,7 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setUser(formData);
 
     authService.login(formData);
   }
