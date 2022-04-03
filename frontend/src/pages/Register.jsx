@@ -19,12 +19,6 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) {
-      navigate('/')
-    }
-  }, [user, navigate])
-
   const onChangeHandler = (event) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -34,6 +28,10 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault()
+
+    if (!email || !password) {
+      toast.error('Please complete all the required fields.')
+    }
     
     if (password !== confirmedPassword) {
       toast.error('Passwords do not match');
