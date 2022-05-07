@@ -1,24 +1,51 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { FaSignInAlt } from 'react-icons/fa'
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { UserContext } from "../context/userContext"
+import authService from '../features/auth/authService'
 
 const Login = () => {
+  const {user, setUser} = useContext(UserContext)
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const [fieldError, setFieldError] = useState(false);
 
   const {email, password} = formData;
+
+  const navigate = useNavigate();
 
   const onChangeHandler = (event) => {
     setFormData((prevState) => ({
       ...prevState,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     }))
   }
 
   const onSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+
+    if (!email || !password) {
+      toast.error('Please complete all the required fields.')
+      setFieldError(true)
+    } else {
+      setFieldError(false)
+    }
+
+    authService.login(formData)
+      .then(details => {
+        setUser(details);
+        navigate('/');
+      }).catch(err => {
+        toast.error(err.message)
+      })
+
+    setFormData({ email: '', password: '' })
   }
+
 
   return <>
     <section className="flex items-center m-0 mx-auto mb-5 py-0 px-5 font-bold w-2/4 flex-col text-xl">
@@ -28,12 +55,19 @@ const Login = () => {
     </section>
 
     <section className="md:w-2/5 sm:w-full lg:w-1/5 m-0 mx-auto">
-      <form autoComplete="off" onSubmit={onSubmit}>
+      <form onSubmit={onSubmit}>
         <div className="mb-2.5 form-group">
-          <input type="email" className="rounded-none border-0 border-b-2 mb-3 border-b-[#35df47] w-full p-2.5 bg-transparent	outline-0" name="email" id="email" onChange={onChangeHandler} value={email} placeholder="Enter your email" />
+          <label class="block text-white-700 text-left text-sm font-bold mb-2" for="username">
+            Username
+          </label>
+          <input type="email" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="email" id="username" onChange={onChangeHandler} value={email} placeholder="Enter your email" />
         </div>
         <div className="mb-2.5 form-group">
-          <input type="password" className="rounded-none border-0 border-b-2 mb-3 border-b-[#35df47] w-full p-2.5 bg-transparent outline-0" name="password" id="password" onChange={onChangeHandler} value={password} placeholder="Enter your password" />
+          <label class="block text-white-700 text-left text-sm font-bold mb-2" for="password">
+            Password
+          </label>
+          <input type="password" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="password" id="password" onChange={onChangeHandler} value={password} placeholder="Enter your password" />
+          {fieldError && <p class="text-red-500 text-left text-xs italic">Please enter a password.</p>}
         </div>
         <div className="mb-2.5 form-group">
           <button type="submit" className="flex items-center justify-center bg-[#26134b] py-2.5 px-5 font-bold rounded-md mb-5 w-full hover:scale-[0.98]">Login</button>

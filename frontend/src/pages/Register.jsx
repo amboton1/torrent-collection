@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { FaUser } from 'react-icons/fa'
-import { register, reset } from '../features/auth/authSlice'
-import Spinner from "../components/Spinner"
+import { UserContext } from "../context/userContext"
+import authService from '../features/auth/authService'
 
 const Register = () => {
+  const {user, setUser} = useContext(UserContext)
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,22 +18,6 @@ const Register = () => {
   const {name, email, password, confirmedPassword} = formData;
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message)
-    }
-
-    if (isSuccess || user) {
-      navigate('/')
-    }
-
-    dispatch(reset())
-    
-  }, [user, isError, isSuccess, message, isLoading, dispatch, navigate])
 
   const onChangeHandler = (event) => {
     setFormData((prevState) => ({
@@ -43,6 +28,10 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault()
+
+    if (!email || !password) {
+      toast.error('Please complete all the required fields.')
+    }
     
     if (password !== confirmedPassword) {
       toast.error('Passwords do not match');
@@ -53,12 +42,12 @@ const Register = () => {
         password
       }
 
-      dispatch(register(userData))
+      authService.register(userData)
+        .then(() => {
+          toast.success('You have successfully registered!. Go ahead and login.');
+          navigate('/login');
+        }).catch(err => toast.error(err.message))
     }
-  }
-
-  if (isLoading) {
-    return <Spinner />
   }
 
   return <>
