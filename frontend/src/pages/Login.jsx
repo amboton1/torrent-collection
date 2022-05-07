@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { FaSignInAlt } from 'react-icons/fa'
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -34,11 +34,18 @@ const Login = () => {
     } else {
       setFieldError(false)
     }
-    
-    setUser(formData);
 
     authService.login(formData)
+      .then(details => {
+        setUser(details);
+        navigate('/');
+      }).catch(err => {
+        toast.error(err.message)
+      })
+
+    setFormData({ email: '', password: '' })
   }
+
 
   return <>
     <section className="flex items-center m-0 mx-auto mb-5 py-0 px-5 font-bold w-2/4 flex-col text-xl">

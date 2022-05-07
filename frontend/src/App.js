@@ -7,18 +7,27 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import { UserContext } from './context/userContext';
 import { useState } from 'react';
+import Home from './components/Home';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loggedState, setLoggedState] = useState(null);
 
   return (
     <>
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{ user, setUser, loggedState, setLoggedState }}>
         <Router>
           <div className="m-0 mx-auto text-center">
             <Header />
             <Routes>
-              <Route path='/' element={<Dashboard />} />
+              {
+                user ? (
+                  <Route path='/' element={<Dashboard />} />
+                ) : (
+                  <Route path='/' element={<Home />} />
+                )
+              }
+              
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
             </Routes>

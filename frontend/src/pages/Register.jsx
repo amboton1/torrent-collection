@@ -42,8 +42,11 @@ const Register = () => {
         password
       }
 
-      setUser(userData);
-      authService.register(userData);
+      authService.register(userData)
+        .then(() => {
+          toast.success('You have successfully registered!. Go ahead and login.');
+          navigate('/login');
+        }).catch(err => toast.error(err.message))
     }
   }
 
