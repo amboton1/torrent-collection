@@ -6,12 +6,34 @@ import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import { UserContext } from './context/userContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Home from './components/Home';
+import { getAllResults } from './api/api';
 
-function App() {
+const App = () => {
   const [user, setUser] = useState(null);
-  const [loggedState, setLoggedState] = useState(null);
+  const [loggedState, setLoggedState] = useState(false);
+  const [movies, setMovies] = useState(null);
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+
+    if (user) {
+      getAllResults().then(movies => {
+        setMovies(movies);
+      });
+
+      setLoggedState(true);
+    }
+  }, [user])
+
+  const renderRoute = () => {
+    return loggedState ? (
+      <Route path='/' element={<Dashboard movies={movies} />} />
+    ) : (
+      <Route path='/' element={<Home />} />
+    )
+  }
 
   return (
     <>
@@ -20,14 +42,7 @@ function App() {
           <div className="m-0 mx-auto text-center">
             <Header />
             <Routes>
-              {
-                user ? (
-                  <Route path='/' element={<Dashboard />} />
-                ) : (
-                  <Route path='/' element={<Home />} />
-                )
-              }
-              
+              {renderRoute()}
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
             </Routes>
