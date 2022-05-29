@@ -16,20 +16,21 @@ const App = () => {
   const [movies, setMovies] = useState(null);
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
+    const userCookie = localStorage.getItem('user');
 
-    if (user) {
+    if (userCookie) {
       getAllResults().then(movies => {
         setMovies(movies);
       });
 
+      setUser(userCookie);
       setLoggedState(true);
     }
   }, [user])
 
   const renderRoute = () => {
     return loggedState ? (
-      <Route path='/' element={<Dashboard movies={movies} />} />
+      <Route path='/' element={<Dashboard movies={movies} user={JSON.parse(user)} />} />
     ) : (
       <Route path='/' element={<Home />} />
     )
