@@ -6,7 +6,7 @@ import { UserContext } from "../context/userContext"
 import authService from '../features/auth/authService'
 
 const Login = () => {
-  const {user, setUser} = useContext(UserContext)
+  const { setUser, setLoggedState } = useContext(UserContext)
 
   const [formData, setFormData] = useState({
     email: '',
@@ -38,6 +38,7 @@ const Login = () => {
     authService.login(formData)
       .then(details => {
         setUser(details);
+        setLoggedState(true);
         navigate('/');
       }).catch(err => {
         toast.error(err.message)
@@ -57,17 +58,17 @@ const Login = () => {
     <section className="md:w-2/5 sm:w-full lg:w-1/5 m-0 mx-auto">
       <form onSubmit={onSubmit}>
         <div className="mb-2.5 form-group">
-          <label class="block text-white-700 text-left text-sm font-bold mb-2" for="username">
+          <label className="block text-white-700 text-left text-sm font-bold mb-2" htmlFor="username">
             Username
           </label>
           <input type="email" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="email" id="username" onChange={onChangeHandler} value={email} placeholder="Enter your email" />
         </div>
         <div className="mb-2.5 form-group">
-          <label class="block text-white-700 text-left text-sm font-bold mb-2" for="password">
+          <label className="block text-white-700 text-left text-sm font-bold mb-2" htmlFor="password">
             Password
           </label>
           <input type="password" className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" name="password" id="password" onChange={onChangeHandler} value={password} placeholder="Enter your password" />
-          {fieldError && <p class="text-red-500 text-left text-xs italic">Please enter a password.</p>}
+          {fieldError && <p className="text-red-500 text-left text-xs italic">Please enter a password.</p>}
         </div>
         <div className="mb-2.5 form-group">
           <button type="submit" className="flex items-center justify-center bg-[#26134b] py-2.5 px-5 font-bold rounded-md mb-5 w-full hover:scale-[0.98]">Login</button>
