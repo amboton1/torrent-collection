@@ -1,12 +1,17 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const dotenv = require('dotenv').config();
+const cors = require('cors');
 const port = process.env.PORT || 5000;
 
 const app = express();
 
 connectDB()
 
+app.use(cors({
+    origin: '*',
+    credentials: true,
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
