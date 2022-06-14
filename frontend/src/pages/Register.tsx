@@ -1,13 +1,11 @@
-import { useContext, useEffect, useState } from "react"
+import React, { ChangeEvent, FormEvent } from "react"
+import { useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { FaUser } from 'react-icons/fa'
-import { UserContext } from "../context/userContext"
-import authService from '../features/auth/authService'
+import authService from '../features/auth/authService.ts'
 
 const Register = () => {
-  const {user, setUser} = useContext(UserContext)
-
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,14 +17,14 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  const onChangeHandler = (event) => {
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value
     }))
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault()
 
     if (!email || !password) {
@@ -46,7 +44,7 @@ const Register = () => {
         .then(() => {
           toast.success('You have successfully registered!. Go ahead and login.');
           navigate('/login');
-        }).catch(err => toast.error(err.message))
+        }).catch((err: Error) => toast.error(err.message))
     }
   }
 

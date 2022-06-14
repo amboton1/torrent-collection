@@ -2,7 +2,13 @@ import axios from 'axios';
 
 export const API_URL = 'http://localhost:5000/api/users/';
 
-const register = async(userData) => {
+type UserType = {
+    name: string,
+    email: string,
+    password: string
+}
+
+const register = async(userData: UserType) => {
     try {
         const response = await axios.post(API_URL, userData);
 
@@ -16,7 +22,7 @@ const register = async(userData) => {
     }
 }
 
-const login = async(userData) => {
+const login = async(userData: UserType) => {
     try {
         const response = await axios.post(API_URL + 'login', userData);
 

@@ -1,8 +1,10 @@
+import React from "react";
 import { Link, useNavigate } from "react-router-dom"
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { useContext } from "react";
-import { UserContext } from "../context/userContext";
-import authService from "../features/auth/authService";
+import authService from "../features/auth/authService.ts";
+
+const { UserContext } = require("../context/userContext.ts");
 
 const Header = () => {
   const {loggedState, setLoggedState} = useContext(UserContext);

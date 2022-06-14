@@ -1,9 +1,17 @@
-import { useContext, useState } from "react"
+import React from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react"
 import { FaSignInAlt } from 'react-icons/fa'
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { UserContext } from "../context/userContext"
-import authService from '../features/auth/authService'
+import { UserContext } from "../context/userContext.ts"
+import authService from '../features/auth/authService.ts'
+
+type LoginDeatalType = {
+  email: string,
+  name: string,
+  token: string,
+  _id: string
+}
 
 const Login = () => {
   const { setUser, setLoggedState } = useContext(UserContext)
@@ -18,14 +26,14 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const onChangeHandler = (event) => {
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
       ...prevState,
       [event.target.name]: event.target.value,
     }))
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -36,11 +44,11 @@ const Login = () => {
     }
 
     authService.login(formData)
-      .then(details => {
+      .then((details: LoginDeatalType) => {
         setUser(details);
         setLoggedState(true);
         navigate('/');
-      }).catch(err => {
+      }).catch((err: Record<string, string>) => {
         toast.error(err.message)
       })
 
