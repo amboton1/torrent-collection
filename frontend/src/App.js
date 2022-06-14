@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Dashboard from './pages/Dashboard';
+import Header from './components/Header.tsx';
+import Dashboard from './pages/Dashboard.tsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import { UserContext } from './context/userContext';
+import Login from './pages/Login.tsx';
+import Register from './pages/Register.tsx';
+import { UserContext } from './context/userContext.ts';
 import { useEffect, useState } from 'react';
-import Home from './components/Home';
+import Home from './components/Home.tsx';
 import { getAllResults } from './api/api';
 
 const App = () => {
