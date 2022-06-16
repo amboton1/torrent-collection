@@ -6,21 +6,32 @@ import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
 import { UserContext } from './context/userContext.ts';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import Home from './components/Home.tsx';
 import { getAllResults } from './api/api';
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'fetchMovies':
+      return { ...state, movies: action.payload }
+    case 'loggedInUser':
+      return { ...state, loggedState: action.payload }
+    default:
+      throw new Error();
+  }
+}
 
 const App = () => {
   const [user, setUser] = useState(null);
   const [loggedState, setLoggedState] = useState(false);
-  const [movies, setMovies] = useState(null);
+  const [state, dispatch] = useReducer(reducer, { movies: null });
 
   useEffect(() => {
     const userCookie = localStorage.getItem('user');
 
     if (userCookie) {
       getAllResults().then(movies => {
-        setMovies(movies);
+        dispatch({ type: 'fetchMovies', payload: movies });
       });
 
       setUser(userCookie);
@@ -30,7 +41,7 @@ const App = () => {
 
   const renderRoute = () => {
     return loggedState ? (
-      <Route path='/' element={<Dashboard movies={movies} user={JSON.parse(user)} />} />
+      <Route path='/' element={<Dashboard movies={state.movies} user={JSON.parse(user)} />} />
     ) : (
       <Route path='/' element={<Home />} />
     )
@@ -40,14 +51,14 @@ const App = () => {
     <>
       <UserContext.Provider value={{ user, setUser, loggedState, setLoggedState }}>
         <Router>
-          <div className="m-0 mx-auto text-center">
+          <main className="m-0 mx-auto text-center">
             <Header />
             <Routes>
               {renderRoute()}
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
             </Routes>
-          </div>
+          </main>
         </Router>
       </UserContext.Provider>
       <ToastContainer />
