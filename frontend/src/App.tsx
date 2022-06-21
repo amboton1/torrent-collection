@@ -1,3 +1,4 @@
+import React, { SetStateAction } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header.tsx';
 import Dashboard from './pages/Dashboard.tsx';
@@ -8,21 +9,24 @@ import Register from './pages/Register.tsx';
 import { UserContext } from './context/userContext.ts';
 import { useEffect, useReducer, useState } from 'react';
 import Home from './components/Home.tsx';
-import { getAllResults } from './api/api';
+import { getAllResults } from './api/api.ts';
 
-const reducer = (state, action) => {
+type MovieActionType = {
+  type: string,
+  payload: any
+}
+
+const reducer = (state: Record<string, string>, action: MovieActionType) => {
   switch (action.type) {
     case 'fetchMovies':
       return { ...state, movies: action.payload }
-    case 'loggedInUser':
-      return { ...state, loggedState: action.payload }
     default:
       throw new Error();
   }
 }
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<string>('');
   const [loggedState, setLoggedState] = useState(false);
   const [state, dispatch] = useReducer(reducer, { movies: null });
 

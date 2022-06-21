@@ -1,12 +1,18 @@
+import { Request, Response } from "express";
 const expressAsyncHandler = require("express-async-handler")
 const Users = require("../models/userModel")
 const bycriptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const res = require("express/lib/response")
 
-const getAllUsers = expressAsyncHandler(async (req, res) => {
-    Users.find({}, (err, users) => {
-        const modifiedUsers = users.map(user => {
+type UserType = {
+    id: string,
+    name: string,
+    email: string
+}
+
+const getAllUsers = expressAsyncHandler(async (res: Response) => {
+    Users.find({}, (err: Error, users: []) => {
+        const modifiedUsers = users.map((user: UserType) => {
             return {
                 id: user.id,
                 name: user.name,
@@ -18,7 +24,7 @@ const getAllUsers = expressAsyncHandler(async (req, res) => {
     })
 })
 
-const loginUser = expressAsyncHandler(async (req, res) => {
+const loginUser = expressAsyncHandler(async (req: Request, res: Response) => {
     const {email, password} = req.body;
 
     const user = await Users.findOne({email})
@@ -38,7 +44,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
     }
 })
 
-const registerUser = expressAsyncHandler(async (req, res) => {
+const registerUser = expressAsyncHandler(async (req: Request, res: Response) => {
     const { name, email, password, phone } = req.body;
 
     if (!name || !email || !password) {
@@ -77,7 +83,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
     }
 })
 
-const getMe = expressAsyncHandler(async (req, res) => {
+const getMe = expressAsyncHandler(async (req: Request, res: Response) => {
     if (!req.user) {
         res.status(401)
         throw new Error('Not authorized')
@@ -92,8 +98,8 @@ const getMe = expressAsyncHandler(async (req, res) => {
     })
 })
 
-const updateUser = expressAsyncHandler(async (req, res) => {
-    const user = await Users.findById(req.user.id)
+const updateUser = expressAsyncHandler(async (req: Request, res: Response) => {
+    const user = await Users.findById(req?.user?.id)
 
     if (!user) {
         res.status(401)
@@ -110,8 +116,8 @@ const updateUser = expressAsyncHandler(async (req, res) => {
     res.status(200).json(updatedUser)
 })
 
-const deleteUser = expressAsyncHandler(async (req, res) => {
-    const user = await Users.findById(req.user.id)
+const deleteUser = expressAsyncHandler(async (req: Request, res: Response) => {
+    const user = await Users.findById(req?.user?.id)
 
     if (!user) {
         res.status(400)
@@ -128,7 +134,7 @@ const deleteUser = expressAsyncHandler(async (req, res) => {
     res.status(200).json({ id: req.params.id })
 })
 
-const generateToken = (id) => {
+const generateToken = (id: string) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: '30d'
     })
