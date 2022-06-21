@@ -1,8 +1,10 @@
+import { NextFunction, Request, Response } from "express";
+
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
-const authorization = asyncHandler(async (req, res, next) => {
+const authorization = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     let token;
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {

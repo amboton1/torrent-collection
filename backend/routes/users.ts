@@ -1,4 +1,5 @@
-const express = require('express');
+import express from 'express';
+
 const { loginUser, registerUser, getMe, updateUser, deleteUser, getAllUsers } = require('../controllers/usersControllers');
 const { authorization } = require('../middleware/auth');
 const router = express.Router();
