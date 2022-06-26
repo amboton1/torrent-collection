@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Modal from "../components/Modal.tsx";
+import Spinner from "../components/Spinner.tsx";
 
 type DashboardProps = {
   movies: MovieList,
-  user: Record<string,string>
+  user: Record<string,string>,
+  isSpinnerLoading: boolean
 };
 
 type MovieList = {
@@ -13,7 +15,7 @@ type MovieList = {
   }[],  
 }
 
-const Dashboard = ({movies, user}: DashboardProps) => {
+const Dashboard = ({movies, user, isSpinnerLoading}: DashboardProps) => {
   const [isModalOpen, setIsModalOpen] = useState<Boolean>(false);
   const [movieInfo, setMovieInfo] = useState({});
 
@@ -41,6 +43,7 @@ const Dashboard = ({movies, user}: DashboardProps) => {
   return (
     <div>
       <h1 className="text-3xl font-bold text-white mb-5">{`Welcome, ${user?.name}`}</h1>
+      {isSpinnerLoading && <Spinner />}
       <section className="pb-5">
         <div className="grid grid-cols-4 gap-4 px-5">
           {renderListOfMovies(movies)}

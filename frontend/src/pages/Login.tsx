@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { UserContext } from "../context/userContext.ts"
 import authService from '../features/auth/authService.ts'
 
-type LoginDeatalType = {
+type LoginDetailType = {
   email: string,
   name: string,
   token: string,
@@ -14,7 +14,7 @@ type LoginDeatalType = {
 }
 
 const Login = () => {
-  const { setUser, setLoggedState } = useContext(UserContext)
+  const { setUser,  } = useContext(UserContext)
 
   const [formData, setFormData] = useState({
     email: '',
@@ -44,9 +44,8 @@ const Login = () => {
     }
 
     authService.login(formData)
-      .then((details: LoginDeatalType) => {
+      .then((details: LoginDetailType) => {
         setUser(details);
-        setLoggedState(true);
         navigate('/');
       }).catch((err: Record<string, string>) => {
         toast.error(err.message)

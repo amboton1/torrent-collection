@@ -43,6 +43,37 @@ body {
     background: rgba(0, 0, 0, 0.7);
 }
 
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+.loading-spinner {
+    position: absolute;
+    margin-top: 60px;
+    z-index: 1;
+    width: 200px;
+    height: 200px;
+    border: 10px solid blue;
+    border-top: 10px solid black;
+    border-left: 10px solid green;
+    border-right: 10px solid cyan;
+    border-radius: 50%;
+    animation: spinner 1.5s linear infinite;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
