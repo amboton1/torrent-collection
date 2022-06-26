@@ -19,7 +19,9 @@ const Modal = (props: MovieInfo) => {
   const { movieInfo, setIsModalOpen } = props;
   const { title_long, description_full, medium_cover_image, date_uploaded, genres, torrents, year } = movieInfo;
 
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  }
 
   const downloadMovie = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
