@@ -12,6 +12,7 @@ import Home from './components/Home.tsx';
 import { getAllResults } from './api/api.ts';
 import Search from './components/Search.tsx';
 import { getResultsBySearchTerm } from './api/api.ts';
+import Error from './components/Error.tsx';
 
 type MovieActionType = {
   type: string,
