@@ -28,8 +28,6 @@ const Header = (props: HeaderProps) => {
       setIsSignedIn(false);
   }
 
-  console.log(props)
-
   return (
     <header className="header flex justify-between items-center py-5 px-14 mb-10 border-b border-[#76cc52]">
         <div className="logo">
