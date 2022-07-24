@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API_URL = 'http://localhost:5000/api/users/';
+export const API_URL = 'http://localhost:5001/api/users/';
 
 type UserType = {
     name: string,

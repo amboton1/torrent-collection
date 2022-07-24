@@ -13,11 +13,7 @@ import { getAllResults } from './api/api.ts';
 import Search from './components/Search.tsx';
 import { getResultsBySearchTerm } from './api/api.ts';
 import Error from './components/Error.tsx';
-
-type MovieActionType = {
-  type: string,
-  payload: any
-}
+import { MovieActionType } from './types/types';
 
 const reducer = (state: Record<string, string>, action: MovieActionType) => {
   switch (action.type) {

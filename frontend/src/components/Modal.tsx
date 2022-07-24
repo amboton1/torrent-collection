@@ -1,19 +1,5 @@
 import React, { MouseEvent } from "react"
-
-type MovieInfoDetail = {
-    title_long: string,
-    description_full: string,
-    medium_cover_image: string,
-    date_uploaded: string,
-    genres: [],
-    torrents: { url: string }[],
-    year: string
-}
-
-type MovieInfo = {
-    movieInfo: MovieInfoDetail,
-    setIsModalOpen: React.Dispatch<React.SetStateAction<Boolean>>
-}
+import { MovieInfo } from "../types/types";
 
 const Modal = (props: MovieInfo) => {
   const { movieInfo, setIsModalOpen } = props;
