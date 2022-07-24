@@ -2,19 +2,7 @@ import React, { useEffect, useState } from "react";
 import Error from "../components/Error.tsx";
 import Modal from "../components/Modal.tsx";
 import Spinner from "../components/Spinner.tsx";
-
-type DashboardProps = {
-  movies: MovieList,
-  user: Record<string,string>,
-  isSpinnerLoading: boolean
-};
-
-type MovieList = {
-  movies: {
-    large_cover_image: string,
-    title: string
-  }[],  
-}
+import { DashboardProps, MovieList } from "../types/types";
 
 const Dashboard = ({movies, user, isSpinnerLoading}: DashboardProps) => {
   const [isModalOpen, setIsModalOpen] = useState<Boolean>(false);
@@ -26,11 +14,6 @@ const Dashboard = ({movies, user, isSpinnerLoading}: DashboardProps) => {
   }
 
   const renderListOfMovies = (moviesList: MovieList) => {
-    /* if (!(moviesList?.movies)) {
-      return (
-        <Error />
-      )
-    } */
     return moviesList?.movies?.map((element, index) => {
       return (
         <div key={index} className="hover:brightness-50 relative transition cursor-pointer duration-500 hover:scale-105">

@@ -4,7 +4,6 @@
   "description": "Torrent collection for searching through torrent api",
   "main": "server.js",
   "scripts": {
-    "test": "node backend/server.js",
     "server": "nodemon backend/server.ts",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\""
@@ -32,6 +31,7 @@
     "mongoose": "^6.2.7"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.18.6",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.5.1",
     "@types/node": "^17.0.36",

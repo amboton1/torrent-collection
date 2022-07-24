@@ -3,18 +3,9 @@ import { Link, useNavigate } from "react-router-dom"
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { useContext } from "react";
 import authService from "../features/auth/authService.ts";
+import { HeaderProps } from "../types/types";
 
 const { UserContext } = require("../context/userContext.ts");
-
-type ChildrenType = {
-    children: ReactChild | ReactChildren
-}
-
-type HeaderProps = {
-    isSignedIn: boolean,
-    setIsSignedIn: (boolean: boolean) => SetStateAction<boolean>,
-    children: ChildrenType
-}
 
 const Header = (props: HeaderProps) => {
   const { children, isSignedIn, setIsSignedIn } = props;

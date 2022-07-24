@@ -1,9 +1,5 @@
 import React, { ChangeEvent, FormEvent, SetStateAction, useState } from "react"
-
-type SearchTypes = {
-    setFilteredMovieQuery: (searchQuery: string) => SetStateAction<string>,
-    setIsSpinnerLoading: (bool: boolean) => SetStateAction<boolean>
-}
+import { SearchTypes } from "../types/types";
 
 const Search = (props: SearchTypes) => {
   const { setFilteredMovieQuery, setIsSpinnerLoading } = props;

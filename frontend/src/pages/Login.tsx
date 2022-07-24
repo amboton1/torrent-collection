@@ -5,13 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../context/userContext.ts"
 import authService from '../features/auth/authService.ts'
-
-type LoginDetailType = {
-  email: string,
-  name: string,
-  token: string,
-  _id: string
-}
+import { LoginDetailType } from "../types/types";
 
 const Login = () => {
   const { setUser,  } = useContext(UserContext)
