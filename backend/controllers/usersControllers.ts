@@ -10,18 +10,18 @@ type UserType = {
     email: string
 }
 
-const getAllUsers = expressAsyncHandler(async (res: Response) => {
+const getAllUsers = expressAsyncHandler((req: Request, res: Response) => {
     Users.find({}, (err: Error, users: []) => {
-        const modifiedUsers = users.map((user: UserType) => {
+        const allUsers = users.map((user: UserType) => {
             return {
                 id: user.id,
                 name: user.name,
                 email: user.email
             }
-        })
+        });
 
-        res.send(modifiedUsers)
-    })
+        res.status(200).send(allUsers);
+    });
 })
 
 const loginUser = expressAsyncHandler(async (req: Request, res: Response) => {
