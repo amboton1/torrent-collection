@@ -14,6 +14,7 @@ import Search from './components/Search.tsx';
 import { getResultsBySearchTerm } from './api/api.ts';
 import Error from './components/Error.tsx';
 import { MovieActionType } from './types/types';
+import ImageUpload from './pages/ImageUpload.tsx';
 
 const reducer = (state: Record<string, string>, action: MovieActionType) => {
   switch (action.type) {
@@ -75,6 +76,7 @@ const App = () => {
             </Header>
             <Routes>
               {renderRoute()}
+              <Route path='/covers' element={<ImageUpload />} />
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
             </Routes>
